@@ -3,6 +3,14 @@ provider "aws" {
   access_key = "AKIA5G3MBGQF7GNPSVOO"
   secret_key = "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"
 }
+resource "aws_vpc" "main" {
+  cidr_block       = "10.0.0.0/16"
+  instance_tenancy = "default"
+
+  tags = {
+    Name = "main"
+  }
+}
 data "aws_ami" "ubuntu" {
   most_recent = true
 
@@ -25,14 +33,5 @@ resource "aws_instance" "web" {
 
   tags = {
     Name = "HelloWorld"
-  }
-}
-
-resource "aws_vpc" "main" {
-  cidr_block       = "10.0.0.0/16"
-  instance_tenancy = "default"
-
-  tags = {
-    Name = "main"
   }
 }
