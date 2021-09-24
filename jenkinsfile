@@ -14,18 +14,28 @@ pipeline {
     bat 'terraform apply -auto-approve'
   }
   }
-  
-  
-         stage('Test') {  
-             steps {  
-                 bat 'echo "Fail!"; exit 1' 
-                  mail from: "praveensounder05@gmail.com",
-                  to: "praveensounder98@gmail.com",
-                 subject: "error",
-             }  
-         }  
-   
+   stage ('success'){
+            steps {
+                script {
+                    currentBuild.result = 'SUCCESS'
+                }
+            }
+        }
+   post {
+        failure {
+            script {
+                currentBuild.result = 'FAILURE'
+            }
+        }
+   steps {
+    echo "Sent mail notification"
+    mail from: "praveensounder05@gmail.com",
+         to: "praveensounder98@gmail.com",
+         subject: "Error",
+         body: "VPC not created"
+        
+    }
 
-  
+  }
     }
 }
