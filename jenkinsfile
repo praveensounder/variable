@@ -18,7 +18,7 @@ pipeline {
   
          stage('Test') {  
              steps {  
-                 sh 'echo "Fail!"; exit 1' 
+                 bat 'echo "Fail!"; exit 1' 
                   mail from: "praveensounder05@gmail.com",
                   to: "praveensounder98@gmail.com",
                  subject: "error",
