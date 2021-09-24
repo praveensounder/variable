@@ -16,14 +16,9 @@ pipeline {
   }
   
   
-  pipeline {
-...
 
-environment {
-        EMAIL_TO = 'someone@host.com'
-    }
-post {
-        failure {
+stage {
+        steps {
             emailext body: 'Check console output at $BUILD_URL to view the results. \n\n ${CHANGES} \n\n -------------------------------------------------- \n${BUILD_LOG, maxLines=100, escapeHtml=false}', 
                     to: "praveensounder98@gmail.com", 
                     subject: 'Build failed in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
@@ -32,15 +27,6 @@ post {
     }
 }
 
-  stage ('Notification') {
-      steps {
-    echo "Sent mail notification"
-    mail from: "praveensounder05@gmail.com",
-         to: "praveensounder98@gmail.com",
-         subject: "Reg VPC",
-         body: "VPC created Success Fully"
-        
-    }
-}
+  
     }
 }
