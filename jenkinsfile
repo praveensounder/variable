@@ -22,21 +22,12 @@ pipeline {
             }
         }
         }
-   post {
-        failure {
-            script {
-                currentBuild.result = 'FAILURE'
-            }
-        }
-   always {
-            step([$class: 'Mailer',
-    
-    mail from: "praveensounder05@gmail.com",
-         to: "praveensounder98@gmail.com",
-         subject: "Error",
-         body: "VPC not created")]
-        
+  post {
+    failure {
+         from: "praveensounder05@gmail.com",
+        mail to: 'praveensounder98@gmail.com',
+             subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+             body: "Something is wrong with ${env.BUILD_URL}"
     }
-
-  }
     }
+}
