@@ -26,6 +26,7 @@ pipeline {
     failure {
          
         mail to: 'praveensounder98@gmail.com',
+        emailext attachLog: true,
              subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
              body: "ec2 creation fail ${env.BUILD_URL}"
     }
