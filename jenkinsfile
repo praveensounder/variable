@@ -4,6 +4,16 @@ pipeline {
     stages {
        stage('Terraform Plan') {
            steps {
+           snsPublish(
+
+                topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
+
+                subject: 'Build failed!',
+
+                message: env.BUILD_URL
+
+            )
+
     bat 'terraform init'
     bat 'terraform plan'
   }
@@ -23,21 +33,6 @@ pipeline {
             }
         }
         }
-        
-  post {
-
-        failure {
-
-            snsPublish(
-
-                topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
-
-                subject: 'Build failed!',
-
-                message: env.BUILD_URL
-
-            )
-
-        }
+ 
 }
 }
