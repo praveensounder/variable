@@ -32,9 +32,10 @@ pipeline {
 
                 subject: 'Build failed!',
 
-                message: env.BUILD_URL,
+                message: env.BUILD_URL
 
             )
 
         }
+}
 }
