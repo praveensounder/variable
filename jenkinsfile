@@ -8,7 +8,7 @@ pipeline {
 
                 topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
 
-                subject: 'Build failed!',
+                subject: 'Build plan!',
 
                 message: env.BUILD_URL
 
@@ -22,6 +22,15 @@ pipeline {
   stage ('Terraform Apply') {
       steps {
     bat 'terraform apply -auto-approve'
+      snsPublish(
+
+                topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
+
+                subject: 'Build deploy!',
+
+                message: env.BUILD_URL
+
+            )
   }
   }
   
@@ -29,7 +38,17 @@ pipeline {
             steps {
                 script {
                     currentBuild.result = 'SUCCESS'
+                    
                 }
+                  snsPublish(
+
+                topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
+
+                subject: 'Build Success!',
+
+                message: env.BUILD_URL
+
+            )
             }
         }
         }
