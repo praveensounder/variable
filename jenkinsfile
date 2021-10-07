@@ -23,12 +23,18 @@ pipeline {
         }
         }
   post {
-    failure {
-         
-        mail to: 'praveensounder98@gmail.com',
-             subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
-             
-             body: "emailext attachLog: true,ec2 creation fail ${env.BUILD_URL}"
-    }
-    }
+
+        failure {
+
+            snsPublish(
+
+                topicArn: 'arn:aws:sns:us-east-1:860556710136:jenkinsBuild',
+
+                subject: 'Build failed!',
+
+                message: env.BUILD_URL,
+
+            )
+
+        }
 }
