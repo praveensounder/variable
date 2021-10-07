@@ -8,18 +8,20 @@ pipeline {
     bat 'terraform plan'
   }
        }
-
+try {
   stage ('Terraform Apply') {
       steps {
     bat 'terraform apply -auto-approve'
   }
   }
+  
    stage ('success'){
             steps {
                 script {
                     currentBuild.result = 'SUCCESS'
                 }
             }
+        }
         }
         }
   post {
