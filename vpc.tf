@@ -5,9 +5,9 @@ provider "aws" {
 }
 resource "aws_vpc" "main" {
   cidr_block       = "10.0.0.0/16"
-  instance_tenancy = "default2"
+  instance_tenancy = "default"
 
   tags = {
-    Name = "main3"
+    Name = "main"
   }
 }
