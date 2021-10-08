@@ -6,7 +6,7 @@ pipeline {
            steps {
            snsPublish(
 
-                topicArn: 'arn:aws:sns:us-west-2:860556710136:lambda',
+                topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
 
                 subject: 'Build plan!',
 
@@ -24,7 +24,7 @@ pipeline {
     bat 'terraform apply -auto-approve'
       snsPublish(
 
-                topicArn: 'arn:aws:sns:us-west-2:860556710136:lambda',
+                topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
 
                 subject: 'Build deploy!',
 
@@ -42,7 +42,7 @@ pipeline {
                 }
                   snsPublish(
 
-                topicArn: 'arn:aws:sns:us-west-2:860556710136:lambda',
+                topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
 
                 subject: 'Build Success!',
 
