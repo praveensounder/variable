@@ -3,7 +3,7 @@ pipeline {
 
     stages {
        stage('Terraform Plan') {
-           catch (e) {
+            steps {
         currentBuild.result = 'FAILURE'
         throw e
     } finally {
@@ -24,7 +24,7 @@ pipeline {
        }
 
   stage ('Terraform Apply') {
-      catch (e) {
+  steps {
         currentBuild.result = 'FAILURE'
         throw e
     } finally {
@@ -43,7 +43,7 @@ pipeline {
   }
   
    stage ('success'){
-        catch (e) {
+         steps {
         currentBuild.result = 'FAILURE'
         throw e
     } finally {
