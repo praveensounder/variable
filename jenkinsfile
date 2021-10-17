@@ -34,22 +34,7 @@ pipeline {
             )
   }
   }
-   post {
-        failure {
-            script {
-                currentBuild.result = 'FAILURE'
-            }
-              snsPublish(
-
-                topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
-
-                subject: 'fail1234!',
-
-                message: env.BUILD_URL
-
-            )
-            }
-        }
+  
   
    stage ('success'){
             steps {
