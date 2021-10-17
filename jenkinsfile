@@ -87,6 +87,7 @@ pipeline {
                 message: env.BUILD_URL
 
             )
+            }
 
        }
     }
