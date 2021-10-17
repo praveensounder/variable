@@ -16,10 +16,7 @@ pipeline {
 
     bat 'terraform init'
     bat 'terraform plan'
-  }
-       }
-      
-    try {
+       try {
         notifySlack()
 
         // Existing build steps.
@@ -29,8 +26,11 @@ pipeline {
     } finally {
         notifySlack(currentBuild.result)
     }
-
-
+    
+  }
+       }
+      
+   
   stage ('Terraform Apply') {
       steps {
     bat 'terraform apply -auto-approve'
@@ -43,10 +43,7 @@ pipeline {
                 message: env.BUILD_URL
 
             )
-  }
-  }
-  
-    try {
+             try {
         notifySlack()
 
         // Existing build steps.
@@ -56,6 +53,12 @@ pipeline {
     } finally {
         notifySlack(currentBuild.result)
     }
+
+
+  }
+  }
+  
+   
 
   
    stage ('success'){
@@ -73,10 +76,7 @@ pipeline {
                 message: env.BUILD_URL
 
             )
-            }
-        }
-        
-    try {
+             try {
         notifySlack()
 
         // Existing build steps.
@@ -86,6 +86,12 @@ pipeline {
     } finally {
         notifySlack(currentBuild.result)
     }
+
+
+            }
+        }
+        
+   
 
         }
  
