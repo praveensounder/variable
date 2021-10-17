@@ -1,9 +1,12 @@
-  pipeline {
+pipeline {
     agent any
 
     stages {
        stage('Terraform Plan') {
-           steps {
+           steps { catch (e) {
+        currentBuild.result = 'FAILURE'
+        throw e
+    } finally {
            snsPublish(
 
                 topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
@@ -17,10 +20,14 @@
     bat 'terraform init'
     bat 'terraform plan'
   }
+  }
        }
 
   stage ('Terraform Apply') {
-      steps {
+      steps {catch (e) {
+        currentBuild.result = 'FAILURE'
+        throw e
+    } finally {
     bat 'terraform apply -auto-approve'
       snsPublish(
 
@@ -33,9 +40,13 @@
             )
   }
   }
+  }
   
    stage ('success'){
-            steps {
+            steps {catch (e) {
+        currentBuild.result = 'FAILURE'
+        throw e
+    } finally {
                 script {
                     currentBuild.result = 'SUCCESS'
                     
@@ -49,6 +60,7 @@
                 message: env.BUILD_URL
 
             )
+            }
             }
         }
         }
