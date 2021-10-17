@@ -1,13 +1,6 @@
 pipeline {
-    agent any
-
-    stages {
-       stage('Terraform Plan') {
-            steps {
-        currentBuild.result = 'FAILURE'
-        throw e
-     }
-     {
+    stages { stage('Terraform Plan') {
+           steps {
            snsPublish(
 
                 topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
@@ -20,17 +13,11 @@ pipeline {
 
     bat 'terraform init'
     bat 'terraform plan'
-  
   }
-  
        }
 
   stage ('Terraform Apply') {
-  steps {
-        currentBuild.result = 'FAILURE'
-        throw e
-     }
-     {
+      steps {
     bat 'terraform apply -auto-approve'
       snsPublish(
 
@@ -41,15 +28,11 @@ pipeline {
                 message: env.BUILD_URL
 
             )
-  
   }
   }
   
    stage ('success'){
-         steps {
-        currentBuild.result = 'FAILURE'
-        throw e
-     {
+            steps {
                 script {
                     currentBuild.result = 'SUCCESS'
                     
@@ -64,9 +47,47 @@ pipeline {
 
             )
             }
-            }
-            }
         }
-        }
- 
+        } }
+    post {
+       // only triggered when blue or green sign
+       success {
+            snsPublish(
+
+                topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
+
+                subject: 'Build plan!',
+
+                message: env.BUILD_URL
+
+            )
+
+       }
+       // triggered when red sign
+       failure {
+             snsPublish(
+
+                topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
+
+                subject: 'Build plan!',
+
+                message: env.BUILD_URL
+
+            )
+
+       }
+       // trigger every-works
+       always {
+            snsPublish(
+
+                topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
+
+                subject: 'Build plan!',
+
+                message: env.BUILD_URL
+
+            )
+
+       }
+    }
 }
