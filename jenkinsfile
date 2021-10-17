@@ -3,7 +3,8 @@ pipeline {
 
     stages {
        stage('Terraform Plan') {
-           steps {
+           steps  if (buildStatus == 'snsPublish')  {
+        
            snsPublish(
 
                 topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
@@ -17,10 +18,23 @@ pipeline {
     bat 'terraform init'
     bat 'terraform plan'
   }
+  else {
+    snsPublish(
+
+                topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
+
+                subject: 'Build plan fail!',
+
+                message: env.BUILD_URL
+
+            )
+  }
+  }
        }
 
   stage ('Terraform Apply') {
-      steps {
+      steps  if (buildStatus == 'snsPublish')  {
+        
     bat 'terraform apply -auto-approve'
       snsPublish(
 
@@ -31,11 +45,23 @@ pipeline {
                 message: env.BUILD_URL
 
             )
+            }
+             else {
+    snsPublish(
+
+                topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
+
+                subject: 'Build plan fail!',
+
+                message: env.BUILD_URL
+
+            )
+  }
   }
   }
   
    stage ('success'){
-            steps {
+            steps  if (buildStatus == 'snsPublish'){
                 script {
                     currentBuild.result = 'SUCCESS'
                     
@@ -50,6 +76,17 @@ pipeline {
 
             )
             }
+              else {
+    snsPublish(
+
+                topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
+
+                subject: 'Build plan fail!',
+
+                message: env.BUILD_URL
+
+            )
+  }
         }
         }
  
