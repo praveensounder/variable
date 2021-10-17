@@ -61,7 +61,7 @@ pipeline {
 
                 topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
 
-                subject: 'Build Success!',
+                subject: 'fail!',
 
                 message: env.BUILD_URL
 
