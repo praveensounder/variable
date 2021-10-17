@@ -18,6 +18,7 @@ pipeline {
     bat 'terraform plan'
   }
        }
+       
 
   stage ('Terraform Apply') {
       steps {
@@ -33,6 +34,22 @@ pipeline {
             )
   }
   }
+   post {
+        failure {
+            script {
+                currentBuild.result = 'FAILURE'
+            }
+              snsPublish(
+
+                topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
+
+                subject: 'fail!',
+
+                message: env.BUILD_URL
+
+            )
+            }
+        }
   
    stage ('success'){
             steps {
