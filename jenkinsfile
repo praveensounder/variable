@@ -1,6 +1,8 @@
 pipeline {
     agent any
-    stages { stage('Terraform Plan') {
+
+    stages {
+       stage('Terraform Plan') {
            steps {
            snsPublish(
 
@@ -49,46 +51,6 @@ pipeline {
             )
             }
         }
-        } }
-    post {
-       // only triggered when blue or green sign
-       success {
-            snsPublish(
-
-                topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
-
-                subject: 'Build plan!',
-
-                message: env.BUILD_URL
-
-            )
-
-       }
-       // triggered when red sign
-       failure {
-             snsPublish(
-
-                topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
-
-                subject: 'Build plan!',
-
-                message: env.BUILD_URL
-
-            )
-
-       }
-       // trigger every-works
-       always {
-            snsPublish(
-
-                topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
-
-                subject: 'Build plan!',
-
-                message: env.BUILD_URL
-
-            )
-            }
-
-       }
-    
+        }
+ 
+}
