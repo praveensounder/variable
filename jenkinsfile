@@ -48,6 +48,19 @@ pipeline {
             )
   }
   }
+   post {
+        failure {
+         snsPublish(
+
+                topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
+
+                subject: 'Build plan!',
+
+                message: env.BUILD_URL
+                }
+                }
+     pipeline {
+    agent any
   
    stage ('success'){
             steps {
@@ -64,6 +77,18 @@ pipeline {
                 message: env.BUILD_URL
 
             )
+             post {
+        failure {
+         snsPublish(
+
+                topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
+
+                subject: 'Build plan!',
+
+                message: env.BUILD_URL
+                }
+                }
+  
             }
         }
         }
