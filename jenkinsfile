@@ -13,16 +13,7 @@ pipeline {
                 message: env.BUILD_URL
 
             )
-             failure (
-
-                topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
-
-                subject: 'Build plan!',
-
-                message: env.BUILD_URL
-
-            )
-
+            
     bat 'terraform init'
     bat 'terraform plan'
   }
@@ -40,16 +31,7 @@ pipeline {
                 message: env.BUILD_URL
 
             )
-              failure (
-
-                topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
-
-                subject: 'Build plan!',
-
-                message: env.BUILD_URL
-
-            )
-
+             
   }
   }
   
@@ -68,15 +50,7 @@ pipeline {
                 message: env.BUILD_URL
 
             )
-              failure (
-
-                topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
-
-                subject: 'Build plan!',
-
-                message: env.BUILD_URL
-
-            )
+             
 
             }
         }
