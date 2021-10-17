@@ -6,7 +6,8 @@ pipeline {
             steps {
         currentBuild.result = 'FAILURE'
         throw e
-     finally {
+     }
+     {
            snsPublish(
 
                 topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
@@ -21,14 +22,15 @@ pipeline {
     bat 'terraform plan'
   
   }
-  }
+  
        }
 
   stage ('Terraform Apply') {
   steps {
         currentBuild.result = 'FAILURE'
         throw e
-     finally {
+     }
+     {
     bat 'terraform apply -auto-approve'
       snsPublish(
 
@@ -39,7 +41,7 @@ pipeline {
                 message: env.BUILD_URL
 
             )
-  }
+  
   }
   }
   
@@ -47,7 +49,7 @@ pipeline {
          steps {
         currentBuild.result = 'FAILURE'
         throw e
-     finally {
+     {
                 script {
                     currentBuild.result = 'SUCCESS'
                     
@@ -61,7 +63,7 @@ pipeline {
                 message: env.BUILD_URL
 
             )
-            
+            }
             }
             }
         }
