@@ -3,7 +3,7 @@ pipeline {
 
     stages {
        stage('Terraform Plan') {
-           steps { catch (e) {
+           steps catch (e) {
         currentBuild.result = 'FAILURE'
         throw e
     } finally {
@@ -19,12 +19,12 @@ pipeline {
 
     bat 'terraform init'
     bat 'terraform plan'
-  }
+  
   }
        }
 
   stage ('Terraform Apply') {
-      steps {catch (e) {
+      steps catch (e) {
         currentBuild.result = 'FAILURE'
         throw e
     } finally {
@@ -38,12 +38,12 @@ pipeline {
                 message: env.BUILD_URL
 
             )
-  }
+  
   }
   }
   
    stage ('success'){
-            steps {catch (e) {
+            steps catch (e) {
         currentBuild.result = 'FAILURE'
         throw e
     } finally {
@@ -60,7 +60,7 @@ pipeline {
                 message: env.BUILD_URL
 
             )
-            }
+            
             }
         }
         }
