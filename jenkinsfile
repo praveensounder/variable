@@ -18,21 +18,6 @@ pipeline {
     bat 'terraform plan'
   }
        }
-          post {
-        failure {
-         snsPublish(
-
-                topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
-
-                subject: 'Build plan!',
-
-                message: env.BUILD_URL
-                }
-                }
-       }
-       }
-  pipeline {
-    agent any
 
   stage ('Terraform Apply') {
       steps {
@@ -48,19 +33,6 @@ pipeline {
             )
   }
   }
-   post {
-        failure {
-         snsPublish(
-
-                topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
-
-                subject: 'Build plan!',
-
-                message: env.BUILD_URL
-                }
-                }
-     pipeline {
-    agent any
   
    stage ('success'){
             steps {
@@ -77,20 +49,28 @@ pipeline {
                 message: env.BUILD_URL
 
             )
-             post {
+            }
+        }
+        post {
         failure {
-         snsPublish(
+            script {
+                currentBuild.result = 'FAILURE'
+            }
+              snsPublish(
 
                 topicArn: 'arn:aws:sns:us-west-2:860556710136:testsns',
 
-                subject: 'Build plan!',
+                subject: 'Build Success!',
 
                 message: env.BUILD_URL
-                }
-                }
-  
+
+            )
             }
         }
+            
+            
+        }
+        
         }
  
 }
