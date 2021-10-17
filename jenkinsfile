@@ -18,7 +18,7 @@ pipeline {
     bat 'terraform plan'
   }
        }
-       node {
+      
     try {
         notifySlack()
 
@@ -29,7 +29,7 @@ pipeline {
     } finally {
         notifySlack(currentBuild.result)
     }
-}
+
 
   stage ('Terraform Apply') {
       steps {
@@ -45,7 +45,7 @@ pipeline {
             )
   }
   }
-  node {
+  
     try {
         notifySlack()
 
@@ -56,7 +56,7 @@ pipeline {
     } finally {
         notifySlack(currentBuild.result)
     }
-}
+
   
    stage ('success'){
             steps {
@@ -75,7 +75,7 @@ pipeline {
             )
             }
         }
-        node {
+        
     try {
         notifySlack()
 
@@ -86,7 +86,7 @@ pipeline {
     } finally {
         notifySlack(currentBuild.result)
     }
-}
+
         }
  
 }
