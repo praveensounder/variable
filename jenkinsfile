@@ -3,7 +3,8 @@ pipeline {
 
     stages {
        stage('Terraform Plan') {
-           steps  if (buildStatus == 'snsPublish')  {
+           steps {
+           if (buildStatus == 'snsPublish')  {
         
            snsPublish(
 
@@ -18,6 +19,7 @@ pipeline {
     bat 'terraform init'
     bat 'terraform plan'
   }
+  
   else {
     snsPublish(
 
@@ -28,12 +30,14 @@ pipeline {
                 message: env.BUILD_URL
 
             )
+  
   }
   }
        }
 
   stage ('Terraform Apply') {
-      steps  if (buildStatus == 'snsPublish')  {
+      steps  {
+      if (buildStatus == 'snsPublish')  {
         
     bat 'terraform apply -auto-approve'
       snsPublish(
@@ -56,12 +60,14 @@ pipeline {
                 message: env.BUILD_URL
 
             )
-  }
+            }
+  
   }
   }
   
    stage ('success'){
-            steps  if (buildStatus == 'snsPublish'){
+            steps  {
+            if (buildStatus == 'snsPublish'){
                 script {
                     currentBuild.result = 'SUCCESS'
                     
