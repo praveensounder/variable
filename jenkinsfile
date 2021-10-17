@@ -1,4 +1,4 @@
-pipeline {
+  pipeline {
     agent any
 
     stages {
@@ -16,21 +16,9 @@ pipeline {
 
     bat 'terraform init'
     bat 'terraform plan'
-       try {
-        notifySlack()
-
-        // Existing build steps.
-    } catch (e) {
-        currentBuild.result = 'FAILURE'
-        throw e
-    } finally {
-        notifySlack(currentBuild.result)
-    }
-    
   }
        }
-      
-   
+
   stage ('Terraform Apply') {
       steps {
     bat 'terraform apply -auto-approve'
@@ -43,23 +31,8 @@ pipeline {
                 message: env.BUILD_URL
 
             )
-             try {
-        notifySlack()
-
-        // Existing build steps.
-    } catch (e) {
-        currentBuild.result = 'FAILURE'
-        throw e
-    } finally {
-        notifySlack(currentBuild.result)
-    }
-
-
   }
   }
-  
-   
-
   
    stage ('success'){
             steps {
@@ -76,24 +49,8 @@ pipeline {
                 message: env.BUILD_URL
 
             )
-             try {
-        notifySlack()
-
-        // Existing build steps.
-    } catch (e) {
-        currentBuild.result = 'FAILURE'
-        throw e
-    } finally {
-        notifySlack(currentBuild.result)
-    }
-
-
             }
         }
-        
-   
-
         }
  
 }
-
